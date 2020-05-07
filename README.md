@@ -1,1 +1,1 @@
-# art-directory
+# quake-directory
