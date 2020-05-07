@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Container from "./Container";
-// import Row from "./Row";
-// import Col from "./Col";
+import Table from "./Table";
+import TableRows from "./TableRows";
 // import Card from "./Card";
 // import SearchForm from "./SearchForm";
 // import MovieDetail from "./MovieDetail";
@@ -9,21 +9,19 @@ import API from "../utils/API";
 
 class QuakeContainer extends Component {
   state = {
-    result: {},
-    // search: "",
+    quakes: [],
   };
 
   componentDidMount() {
-    let date = new Date()
-    let ISOdate = date.toISOString().split('T')[0]
-    // let fullDate = dateString.replace(" ", "-")
-    console.log(ISOdate)
-    this.searchArt(ISOdate);
+    let date = new Date();
+    let ISOdate = date.toISOString().split("T")[0];
+    console.log(ISOdate);
+    this.searchQuakes(ISOdate);
   }
 
-  searchArt = (query) => {
-    API.search(query)
-      .then((res) => this.setState({ result: res.data }))
+  searchQuakes = (query) => {
+    return API.search(query)
+      .then((res) => this.setState({ quakes: res.data.features }))
       .catch((err) => console.log(err));
   };
 
@@ -41,12 +39,17 @@ class QuakeContainer extends Component {
   };
 
   render() {
-    console.log(this.state.result)
+    console.log(this.state.result);
+    // let utcTOdate = this.state.result.features;
+    // .properties.time.toDateString;
+    // console.log(utcTOdate);
     return (
       <Container>
         <p>Hello, world</p>
+        <Table>
+          <TableRows quakes={this.state.quakes} />
+        </Table>
       </Container>
-   
     );
   }
 }
