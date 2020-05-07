@@ -14,7 +14,11 @@ class QuakeContainer extends Component {
   };
 
   componentDidMount() {
-    this.searchArt("2020-05-07");
+    let date = new Date()
+    let ISOdate = date.toISOString().split('T')[0]
+    // let fullDate = dateString.replace(" ", "-")
+    console.log(ISOdate)
+    this.searchArt(ISOdate);
   }
 
   searchArt = (query) => {
