@@ -3,12 +3,16 @@ import Container from "./Container";
 import Table from "./Table";
 import TableRows from "./TableRows";
 import API from "../utils/API";
+import orderBy from "lodash/orderBy";
 
 class QuakeContainer extends Component {
   state = {
     search: "",
     quakes: [],
-    filteredQuakes: []
+    filteredQuakes: [],
+    sortedQuakes: [],
+    sortOrder: "desc",
+    sorted: false,
   };
 
   componentDidMount() {
@@ -25,9 +29,12 @@ class QuakeContainer extends Component {
 
   filterQuakes() {
     let filteredQuakes = this.state.quakes.filter((quake) => {
-      return quake.properties.place.toLowerCase().includes(this.state.search.toLowerCase());
+      return quake.properties.place
+        .toLowerCase()
+        .includes(this.state.search.toLowerCase());
+      // return quake.properties.place.match(this.state.search, "gi")
     });
-    this.setState({filteredQuakes})
+    this.setState({ filteredQuakes });
   }
   handleSearchChange = (event) => {
     this.setState({ search: event.target.value });
@@ -40,7 +47,21 @@ class QuakeContainer extends Component {
       [name]: value,
     });
   };
+  handleSort = () => {
+    this.state.quakes.length > 0
+      ? this.setState({
+          filteredQuakes: orderBy(
+            this.state.quakes,
+            [(quake) => quake.properties.mag],
+            [this.state.sortOrder === "asc" ? "desc" : "asc"]
+          ),
+        })
+      : this.setState({ sorted: false });
 
+    this.state.sortOrder === "asc"
+      ? this.setState({ sortOrder: "desc" })
+      : this.setState({ sortOrder: "asc" });
+  };
 
   render() {
     return (
@@ -56,8 +77,14 @@ class QuakeContainer extends Component {
             />
           </label>
         </div>
-        <Table>
-          <TableRows quakes={this.state.filteredQuakes && this.state.filteredQuakes.length ? this.state.filteredQuakes : this.state.quakes} />
+        <Table handleSort={this.handleSort}>
+          <TableRows
+            quakes={
+              this.state.filteredQuakes && this.state.filteredQuakes.length
+                ? this.state.filteredQuakes
+                : this.state.quakes
+            }
+          />
         </Table>
       </Container>
     );
