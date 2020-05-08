@@ -10,9 +10,7 @@ class QuakeContainer extends Component {
     search: "",
     quakes: [],
     filteredQuakes: [],
-    sortedQuakes: [],
-    sortOrder: "desc",
-    sorted: false,
+    sortOrder: "asc",
   };
 
   componentDidMount() {
@@ -48,15 +46,13 @@ class QuakeContainer extends Component {
     });
   };
   handleSort = () => {
-    this.state.quakes.length > 0
-      ? this.setState({
+      this.setState({
           filteredQuakes: orderBy(
             this.state.quakes,
             [(quake) => quake.properties.mag],
             [this.state.sortOrder === "asc" ? "desc" : "asc"]
           ),
         })
-      : this.setState({ sorted: false });
 
     this.state.sortOrder === "asc"
       ? this.setState({ sortOrder: "desc" })
@@ -66,7 +62,7 @@ class QuakeContainer extends Component {
   render() {
     return (
       <Container>
-        <h1>Earthquakes around the world today</h1>
+        <h1>earthquakes around the world in the last 24hrs</h1>
         <div style={{ width: "100%" }}>
           <label>
             Search:{" "}
@@ -80,7 +76,7 @@ class QuakeContainer extends Component {
         <Table handleSort={this.handleSort}>
           <TableRows
             quakes={
-              this.state.filteredQuakes && this.state.filteredQuakes.length
+              this.state.filteredQuakes && this.state.filteredQuakes.length > 0
                 ? this.state.filteredQuakes
                 : this.state.quakes
             }
