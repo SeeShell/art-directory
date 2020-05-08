@@ -5,7 +5,9 @@ function Table(props){
         <table className="table">
     <thead>
         <tr>
-            <th>Magnitude</th>
+            <th>Magnitude<span type="button" onClick={() => {}}>
+            ^
+          </span></th>
             <th>Place</th>
             <th>Time</th>
             <th>Type</th>

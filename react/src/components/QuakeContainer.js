@@ -2,20 +2,18 @@ import React, { Component } from "react";
 import Container from "./Container";
 import Table from "./Table";
 import TableRows from "./TableRows";
-// import Card from "./Card";
-// import SearchForm from "./SearchForm";
-// import MovieDetail from "./MovieDetail";
 import API from "../utils/API";
 
 class QuakeContainer extends Component {
   state = {
+    search: "",
     quakes: [],
+    filteredQuakes: []
   };
 
   componentDidMount() {
     let date = new Date();
     let ISOdate = date.toISOString().split("T")[0];
-    console.log(ISOdate);
     this.searchQuakes(ISOdate);
   }
 
@@ -25,6 +23,16 @@ class QuakeContainer extends Component {
       .catch((err) => console.log(err));
   };
 
+  filterQuakes() {
+    let filteredQuakes = this.state.quakes.filter((quake) => {
+      return quake.properties.place.toLowerCase().includes(this.state.search.toLowerCase());
+    });
+    this.setState({filteredQuakes})
+  }
+  handleSearchChange = (event) => {
+    this.setState({ search: event.target.value });
+    this.filterQuakes();
+  };
   handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -33,21 +41,23 @@ class QuakeContainer extends Component {
     });
   };
 
-  handleFormSubmit = (event) => {
-    event.preventDefault();
-    this.searchMovies(this.state.search);
-  };
 
   render() {
-    console.log(this.state.result);
-    // let utcTOdate = this.state.result.features;
-    // .properties.time.toDateString;
-    // console.log(utcTOdate);
     return (
       <Container>
-        <p>Hello, world</p>
+        <h1>Earthquakes around the world today</h1>
+        <div style={{ width: "100%" }}>
+          <label>
+            Search:{" "}
+            <input
+              type="text"
+              value={this.state.search}
+              onChange={this.handleSearchChange}
+            />
+          </label>
+        </div>
         <Table>
-          <TableRows quakes={this.state.quakes} />
+          <TableRows quakes={this.state.filteredQuakes && this.state.filteredQuakes.length ? this.state.filteredQuakes : this.state.quakes} />
         </Table>
       </Container>
     );
