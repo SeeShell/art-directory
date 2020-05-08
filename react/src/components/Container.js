@@ -1,9 +1,10 @@
 import React from "react";
+import "./Container.css";
 
 function Container(props) {
   return (
-    <>
-    <h1>earthquakes around the world in the last 24hrs</h1>
+    <div className="container"> 
+    <h2 className="title">earthquakes around the world in the last 24hrs</h2>
         <div style={{ width: "100%" }}>
           <label>
             Search:{" "}
@@ -17,7 +18,7 @@ function Container(props) {
     <div className={`container${props.fluid ? "-fluid" : ""}`}>
       {props.children}
     </div>
-    </>
+    </div>
   );
 }
 
