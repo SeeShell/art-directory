@@ -61,18 +61,7 @@ class QuakeContainer extends Component {
 
   render() {
     return (
-      <Container>
-        <h1>earthquakes around the world in the last 24hrs</h1>
-        <div style={{ width: "100%" }}>
-          <label>
-            Search:{" "}
-            <input
-              type="text"
-              value={this.state.search}
-              onChange={this.handleSearchChange}
-            />
-          </label>
-        </div>
+      <Container search={this.state.search} handleSearchChange={this.handleSearchChange}>
         <Table handleSort={this.handleSort}>
           <TableRows
             quakes={
