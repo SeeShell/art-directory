@@ -8,7 +8,6 @@ function Container(props) {
         <p className="title">
           earthquakes today
         </p>
-        {/* <div style={{ width: "100%" }}> */}
           <label>
             search:{" "}
             <input
