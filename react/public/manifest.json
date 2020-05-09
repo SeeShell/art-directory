@@ -1,6 +1,7 @@
 {
   "short_name": "Art Dir",
   "name": "Art Directory",
+  "homepage": "https://seeshell.github.io/quake-directory",
   "icons": [
     {
       "src": "favicon.ico",
